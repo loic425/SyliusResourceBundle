@@ -71,7 +71,8 @@
         "twig/twig": "^2.12 || ^3.0",
         "vimeo/psalm": "3.17.1",
         "willdurand/hateoas-bundle": "^2.0",
-        "winzou/state-machine-bundle": "^0.3.2 || ^0.4.3 || ^0.5"
+        "winzou/state-machine-bundle": "^0.3.2 || ^0.4.3 || ^0.5",
+        "symfony/dotenv": "^4.4 || ^5.1"
     },
     "suggest": {
         "doctrine/orm": "^2.5",
@@ -95,11 +96,8 @@
         "psr-4": {
             "Sylius\\Bundle\\ResourceBundle\\spec\\": "src/Bundle/spec/",
             "Sylius\\Component\\Resource\\spec\\": "src/Component/spec/",
-            "AppBundle\\": "src/Bundle/test/src/AppBundle/"
-        },
-        "classmap": [
-            "src/Bundle/test/app/AppKernel.php"
-        ]
+            "App\\": "src/Bundle/test/src/"
+        }
     },
     "scripts": {
         "analyse": [
