@@ -16,6 +16,7 @@ namespace Sylius\Bundle\ResourceBundle\DependencyInjection\Compiler;
 use SM\Callback\CallbackFactoryInterface;
 use SM\Callback\CascadeTransitionCallback;
 use SM\Factory\FactoryInterface;
+use SM\StateMachine\StateMachineInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -30,6 +31,10 @@ final class WinzouStateMachinePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
+        if (!class_exists(StateMachineInterface::class)) {
+            return;
+        }
+
         if ($container->hasDefinition('sm.factory') && !$container->hasDefinition(FactoryInterface::class)) {
             $container->setAlias(FactoryInterface::class, 'sm.factory');
         } else {

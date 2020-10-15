@@ -62,3 +62,7 @@ script:
     # Test the whole bundle without FOSRestBundle dependency
     - composer remove friendsofsymfony/rest-bundle willdurand/hateoas-bundle jms/serializer-bundle --dev --no-scripts
     - (cd src/Bundle/test && app/console cache:clear --env=test_without_fosrest)
+
+    # Test the whole bundle without WinzouStateMachineBundle dependency
+    - composer remove winzou/state-machine-bundle --dev --no-scripts
+    - (cd src/Bundle/test && app/console cache:clear --env=test_without_state_machine)
