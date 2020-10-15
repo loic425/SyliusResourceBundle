@@ -16,9 +16,9 @@ namespace Sylius\Bundle\ResourceBundle\DependencyInjection\Compiler;
 use SM\Callback\CallbackFactoryInterface;
 use SM\Callback\CascadeTransitionCallback;
 use SM\Factory\FactoryInterface;
-use SM\StateMachine\StateMachineInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use winzou\Bundle\StateMachineBundle\winzouStateMachineBundle;
 
 /**
  * Marks WinzouStateMachineBundle's services as public for compatibility with both Symfony 3.4 and 4.0+.
@@ -31,7 +31,10 @@ final class WinzouStateMachinePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!class_exists(StateMachineInterface::class)) {
+        $bundles = $container->getParameter('kernel.bundles');
+        $winzouStateMachineEnabled = in_array(winzouStateMachineBundle::class, $bundles, true);
+
+        if (!$winzouStateMachineEnabled) {
             return;
         }
 

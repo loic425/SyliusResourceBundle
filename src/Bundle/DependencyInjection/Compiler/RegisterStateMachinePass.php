@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\ResourceBundle\DependencyInjection\Compiler;
 
-use SM\StateMachine\StateMachineInterface;
 use Sylius\Bundle\ResourceBundle\Controller\StateMachine;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use winzou\Bundle\StateMachineBundle\winzouStateMachineBundle;
 
 final class RegisterStateMachinePass implements CompilerPassInterface
 {
@@ -26,7 +26,10 @@ final class RegisterStateMachinePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        if (!class_exists(StateMachineInterface::class)) {
+        $bundles = $container->getParameter('kernel.bundles');
+        $winzouStateMachineEnabled = in_array(winzouStateMachineBundle::class, $bundles, true);
+
+        if (!$winzouStateMachineEnabled) {
             return;
         }
 
