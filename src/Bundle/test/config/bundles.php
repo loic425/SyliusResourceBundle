@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
@@ -13,5 +24,5 @@ return [
     Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle::class => ['test' => true],
     Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle::class => ['test' => true],
     Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle::class => ['test' => true],
-    winzou\Bundle\StateMachineBundle\winzouStateMachineBundle::class => ['test' => true, 'test_without_fosrest' => true]
+    winzou\Bundle\StateMachineBundle\winzouStateMachineBundle::class => ['test' => true, 'test_without_fosrest' => true],
 ];
