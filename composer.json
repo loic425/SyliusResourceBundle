@@ -67,6 +67,7 @@
         "sylius/grid-bundle": "^1.7",
         "symfony/dependency-injection": "^4.4 || ^5.1",
         "symfony/dotenv": "^4.4 || ^5.1",
+        "symfony/workflow": "^4.4 || ^5.1",
         "twig/twig": "^2.12 || ^3.0",
         "vimeo/psalm": "4.3.1"
     },
