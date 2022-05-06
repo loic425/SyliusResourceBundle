@@ -14,12 +14,8 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ResourceBundle\Controller;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-interface ResourceDeleteHandlerInterface
+interface ResourceCreateHandlerInterface
 {
-    /**
-     * @param RequestConfiguration|RepositoryInterface $configuration
-     */
-    public function handle(ResourceInterface $resource, /* RequestConfiguration|RepositoryInterface */$configuration): void;
+    public function handle(ResourceInterface $resource, RequestConfiguration $configuration): void;
 }

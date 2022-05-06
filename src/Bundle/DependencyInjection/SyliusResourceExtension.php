@@ -17,6 +17,7 @@ use Sylius\Bundle\ResourceBundle\DependencyInjection\Driver\Doctrine\DoctrineODM
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Driver\Doctrine\DoctrineORMDriver;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Driver\Doctrine\DoctrinePHPCRDriver;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Driver\DriverProvider;
+use Sylius\Bundle\ResourceBundle\State\ProcessorInterface;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Component\Resource\Metadata\Metadata;
 use Symfony\Component\Config\FileLocator;
@@ -35,6 +36,9 @@ final class SyliusResourceExtension extends Extension implements PrependExtensio
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.xml');
+
+        $container->registerForAutoconfiguration(ProcessorInterface::class)
+            ->addTag('sylius.state_processor');
 
         /** @var array $bundles */
         $bundles = $container->getParameter('kernel.bundles');

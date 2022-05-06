@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\ResourceBundle\Controller;
 
+use Sylius\Bundle\ResourceBundle\Doctrine\State\PersistProcessor;
+use Sylius\Bundle\ResourceBundle\Doctrine\State\RemoveProcessor;
 use Sylius\Component\Resource\Metadata\MetadataInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -132,6 +134,27 @@ class RequestConfiguration
         }
 
         return [];
+    }
+
+    public function getProcessor(): ?string
+    {
+        $processor = $this->parameters->get('processor');
+
+        if (is_string($processor)) {
+            return $processor;
+        }
+
+        $method = $this->getRequest()->getMethod();
+
+        if (Request::METHOD_GET === $method) {
+            return null;
+        }
+
+        if (Request::METHOD_DELETE === $method) {
+            return RemoveProcessor::class;
+        }
+
+        return PersistProcessor::class;
     }
 
     /**

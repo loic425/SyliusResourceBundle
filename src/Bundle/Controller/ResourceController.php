@@ -68,6 +68,8 @@ class ResourceController
 
     protected ?StateMachineInterface $stateMachine;
 
+    protected ResourceCreateHandlerInterface $resourceCreateHandler;
+
     protected ResourceUpdateHandlerInterface $resourceUpdateHandler;
 
     protected ResourceDeleteHandlerInterface $resourceDeleteHandler;
@@ -88,8 +90,9 @@ class ResourceController
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
         ?StateMachineInterface $stateMachine,
+        ResourceCreateHandlerInterface $resourceCreateHandler,
         ResourceUpdateHandlerInterface $resourceUpdateHandler,
-        ResourceDeleteHandlerInterface $resourceDeleteHandler
+        ResourceDeleteHandlerInterface $resourceDeleteHandler,
     ) {
         $this->metadata = $metadata;
         $this->requestConfigurationFactory = $requestConfigurationFactory;
@@ -106,6 +109,7 @@ class ResourceController
         $this->authorizationChecker = $authorizationChecker;
         $this->eventDispatcher = $eventDispatcher;
         $this->stateMachine = $stateMachine;
+        $this->resourceCreateHandler = $resourceCreateHandler;
         $this->resourceUpdateHandler = $resourceUpdateHandler;
         $this->resourceDeleteHandler = $resourceDeleteHandler;
     }
@@ -189,12 +193,7 @@ class ResourceController
                 return $this->redirectHandler->redirectToIndex($configuration, $newResource);
             }
 
-            if ($configuration->hasStateMachine()) {
-                $stateMachine = $this->getStateMachine();
-                $stateMachine->apply($configuration, $newResource);
-            }
-
-            $this->repository->add($newResource);
+            $this->resourceCreateHandler->handle($newResource, $configuration);
 
             if ($configuration->isHtmlRequest()) {
                 $this->flashHelper->addSuccessFlash($configuration, ResourceActions::CREATE, $newResource);
@@ -348,7 +347,7 @@ class ResourceController
         }
 
         try {
-            $this->resourceDeleteHandler->handle($resource, $this->repository);
+            $this->resourceDeleteHandler->handle($resource, $configuration);
         } catch (DeleteHandlingException $exception) {
             if (!$configuration->isHtmlRequest()) {
                 return $this->createRestView($configuration, null, $exception->getApiResponseCode());
@@ -411,7 +410,7 @@ class ResourceController
             }
 
             try {
-                $this->resourceDeleteHandler->handle($resource, $this->repository);
+                $this->resourceDeleteHandler->handle($resource, $configuration);
             } catch (DeleteHandlingException $exception) {
                 if (!$configuration->isHtmlRequest()) {
                     return $this->createRestView($configuration, null, $exception->getApiResponseCode());

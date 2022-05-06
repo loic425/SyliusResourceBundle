@@ -14,15 +14,15 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ResourceBundle\Controller;
 
 use Doctrine\Persistence\ObjectManager;
+use Sylius\Bundle\ResourceBundle\State\ProcessorInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 final class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
 {
-    private ?StateMachineInterface $stateMachine;
-
-    public function __construct(?StateMachineInterface $stateMachine)
-    {
-        $this->stateMachine = $stateMachine;
+    public function __construct(
+        private ProcessorInterface $processor,
+        private ?StateMachineInterface $stateMachine
+    ) {
     }
 
     public function handle(
@@ -34,6 +34,6 @@ final class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
             $this->stateMachine->apply($requestConfiguration, $resource);
         }
 
-        $manager->flush();
+        $this->processor->process($resource, $requestConfiguration);
     }
 }

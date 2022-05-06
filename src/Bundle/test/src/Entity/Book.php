@@ -32,7 +32,7 @@ class Book implements ResourceInterface, TranslatableInterface
      * @Serializer\Type("integer")
      * @Serializer\XmlAttribute
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @Serializer\Expose
@@ -40,45 +40,31 @@ class Book implements ResourceInterface, TranslatableInterface
      */
     private ?string $author = null;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return string
-     *
      * @Serializer\VirtualProperty()
      * @Serializer\SerializedName("title")
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->getTranslation()->getTitle();
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->getTranslation()->setTitle($title);
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthor()
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    /**
-     * @param string $author
-     */
-    public function setAuthor($author)
+    public function setAuthor(?string $author): void
     {
         $this->author = $author;
     }
