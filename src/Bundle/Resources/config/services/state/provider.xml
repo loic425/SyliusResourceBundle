@@ -18,6 +18,11 @@
         </service>
         <service id="sylius.state_provider.main" alias="sylius.state_provider.read" />
 
+        <service id="sylius.state_provider.send_early_hings" class="Sylius\Resource\Symfony\WebLink\State\SendEarlyHintsProvider" decorates="sylius.state_provider.read" decoration-priority="600">
+            <argument type="service" id=".inner" />
+            <argument type="service" id="web_link.http_header_serializer" on-invalid="null" />
+        </service>
+
         <service id="sylius.state_provider.factory" class="Sylius\Resource\State\Provider\FactoryProvider" decorates="sylius.state_provider.read" decoration-priority="500">
             <argument type="service" id=".inner" />
             <argument type="service" id="sylius.state.factory" />
